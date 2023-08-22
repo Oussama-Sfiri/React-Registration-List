@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import TodoItems from './Components/TodoItems/TodoItems';
+import AddItem from './Components/AddItem/AddItem';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export class App extends Component {
+  state={
+    items : [
+      {id : 1, name: 'Hamza', age:22},
+      {id : 2, name: 'Ahmed', age:21},
+      {id : 3, name: 'Yasser', age:20},
+    ],
+  };
+
+  deleteItem = (id) => {
+    const filteredItems = this.state.items.filter((item) => item.id !== id);
+    this.setState({items : filteredItems})
+  };
+
+  addItem = (newItem) => {
+    const itemsLength = this.state.items.length;
+    newItem.id = itemsLength ? this.state.items[itemsLength-1].id + 1 : 1 ;
+    const allItems = this.state.items;
+    allItems.push(newItem);
+    this.setState({items : allItems});
+  };
+
+  render() {
+    return (
+      <div className='App container'>
+        <h1 className='text-center'>Registration List</h1>
+        <TodoItems items={this.state.items} deleteItem={this.deleteItem}/>
+        <AddItem addItem={this.addItem}/>
+      </div>
+    )
+  }
 }
 
 export default App;
